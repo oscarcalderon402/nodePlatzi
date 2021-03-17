@@ -10,7 +10,11 @@ async function get(tabla, id) {
   return col.filter((item) => item.id === id)[0] || null;
 }
 async function upsert(tabla, data) {
-  await db[tabla].push(data);
+  if (!db[tabla]) {
+    db[tabla] = [];
+  }
+  db[tabla].push(data);
+  console.log(db);
 }
 async function remove(tabla, id) {
   return true;
