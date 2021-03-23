@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken');
+const error = require('../utils/error');
 const config = require('../config');
 const secret = config.jwt.secret;
 
@@ -18,7 +19,7 @@ const check = {
     //comprobar si es propio
 
     if (decoded.id !== owner) {
-      throw new Error('No puedes hacer esto', 401);
+      throw error('No puedes hacer esto', 401);
     }
   },
 };
