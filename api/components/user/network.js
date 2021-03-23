@@ -1,5 +1,6 @@
 const express = require('express');
 
+const secure = require('./secure');
 const response = require('../../../network/response');
 const controller = require('./index');
 const router = express.Router();
@@ -31,7 +32,7 @@ router.post('/', async (req, res) => {
   }
 });
 
-router.put('/', async (req, res) => {
+router.put('/', secure('update'), async (req, res) => {
   try {
     const user = await controller.upsert(req.body);
     response.success(req, res, user, 200);
