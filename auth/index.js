@@ -26,10 +26,10 @@ const check = {
 
 function getToken(auth) {
   if (!auth) {
-    throw new Error('No viene token');
+    throw error('No viene token');
   }
   if (auth.indexOf('Bearer ') === -1) {
-    throw new Error('formato invalido');
+    throw error('formato invalido');
   }
   let token = auth.replace('Bearer ', '');
   return token;
