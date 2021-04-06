@@ -55,32 +55,48 @@ function get(table, id) {
 
 function insert(table, data) {
   return new Promise((resolve, reject) => {
+    console.log(
+      `GOING TO MAKE AN INSERT INTO TABLE: ${table} with data: ${data}`
+    );
     connection.query(`INSERT INTO ${table} SET ?`, data, (err, result) => {
-      if (err) return reject(err);
-      resolve(result);
+      if (err) {
+        console.error('### ERR ###: ', err);
+        return reject(err);
+      } else {
+        resolve(result);
+      }
     });
   });
 }
 
 function update(table, data) {
   return new Promise((resolve, reject) => {
+    console.log('DATA TO BE UPDATED: ', data);
     connection.query(
-      `UPDATE ${table} SET ? WHERE id=?`,
+      `UPDATE ${table} SET ? WHERE id= ?`,
       [data, data.id],
       (err, result) => {
-        if (err) return reject(err);
-        resolve(result);
+        if (err) {
+          console.error('UPDATE CANNOT BE DONE: ', err);
+          return reject(err);
+        } else {
+          console.log('UPDATE DONE: ', result);
+          resolve(result);
+        }
       }
     );
   });
 }
 
+// function upsert(table, data) {
+//   if (data && data.id) {
+//     return update(table, data);
+//   } else {
+//     return insert(table, data);
+//   }
+// }
 function upsert(table, data) {
-  if (data && data.id) {
-    return update(table, data);
-  } else {
-    return insert(table, data);
-  }
+  return insert(table, data);
 }
 
 function query(table, query, join) {

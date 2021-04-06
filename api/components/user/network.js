@@ -41,4 +41,14 @@ router.put('/', secure('update'), async (req, res, next) => {
   }
 });
 
+router.post('/follow/:id', secure('follow'), async (req, res, next) => {
+  try {
+    const data = await controller.follow(req.user.id, req.params.id);
+    console.log(req.user.id);
+    response.success(req, res, data, 201);
+  } catch (error) {
+    next(error);
+  }
+});
+
 module.exports = router;

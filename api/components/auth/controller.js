@@ -12,11 +12,13 @@ module.exports = function (injectedStore) {
     const data = await store.query(TABLA, { username: username });
 
     const equals = await bcrypt.compare(password, data.password);
+    console.log(data);
+    console.log('[test]', equals);
     if (!equals) {
       throw new Error('informacion invalida');
     } else {
       //token
-      return auth.sign(data);
+      return auth.sign({ data });
     }
   }
 

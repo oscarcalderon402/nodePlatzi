@@ -15,12 +15,16 @@ const check = {
   own: function (req, owner) {
     const decoded = decodeHeader(req);
     console.log(decoded);
-
     //comprobar si es propio
-
     if (decoded.id !== owner) {
       throw error('No puedes hacer esto', 401);
     }
+  },
+
+  logged: function (req) {
+    console.log(req);
+    const decoded = decodeHeader(req);
+    console.log(decoded);
   },
 };
 
