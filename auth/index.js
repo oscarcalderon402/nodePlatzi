@@ -21,8 +21,7 @@ const check = {
     }
   },
 
-  logged: function (req) {
-    console.log(req);
+  logged: function (req, owner) {
     const decoded = decodeHeader(req);
     console.log(decoded);
   },
@@ -45,7 +44,6 @@ function decodeHeader(req) {
   const decoded = verify(token);
 
   req.user = decoded;
-
   return decoded;
 }
 
