@@ -8,6 +8,7 @@ module.exports = function checkAuth(action) {
         auth.check.own(req, owner);
         next();
         break;
+      case 'post':
       case 'follow':
         auth.check.logged(req);
         next();
