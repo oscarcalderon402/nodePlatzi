@@ -50,4 +50,13 @@ router.post('/follow/:id', secure('follow'), async (req, res, next) => {
   }
 });
 
+router.get('/:id/followin', async (req, res, next) => {
+  try {
+    const data = await controller.following(req.params.id);
+    response.success(req, res, data, 201);
+  } catch (error) {
+    next(error);
+  }
+});
+
 module.exports = router;
