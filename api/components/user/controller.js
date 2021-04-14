@@ -20,16 +20,20 @@ module.exports = function (injectedStore) {
     const user = {
       name: body.name,
       username: body.username,
+      id: body.id ? body.id : nanoid(),
     };
-    if (body.id) {
-      user.id = body.id;
-    } else {
-      user.id = nanoid();
-    }
+
+    // console.log(user);
+    // if (body.id) {
+    //   user.id = body.id;
+    // } else {
+    //   console.log(nanoid());
+    //   user.id = nanoid();
+    // }
 
     if (body.password || body.username) {
       await auth.upsert({
-        id: user.id,
+        id: body.id ? body.id : nanoid(),
         username: user.username,
         password: body.password,
       });

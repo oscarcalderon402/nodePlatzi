@@ -55,58 +55,49 @@ function get(table, id) {
 
 function insert(table, data) {
   return new Promise((resolve, reject) => {
-    console.log(
-      `GOING TO MAKE AN INSERT INTO TABLE: ${table} with data: ${data}`
-    );
     connection.query(`INSERT INTO ${table} SET ?`, data, (err, result) => {
-      if (err) {
-        console.error('### ERR ###: ', err);
-        return reject(err);
-      } else {
-        resolve(result);
-      }
+      if (err) return reject(err);
+      resolve(result);
     });
   });
 }
 
 function update(table, data) {
+  console.log('updata', data);
   return new Promise((resolve, reject) => {
-    console.log('DATA TO BE UPDATED: ', data);
     connection.query(
-      `UPDATE ${table} SET ? WHERE id= ?`,
+      `UPDATE ${table} SET ? WHERE id=?`,
       [data, data.id],
       (err, result) => {
-        if (err) {
-          console.error('UPDATE CANNOT BE DONE: ', err);
-          return reject(err);
-        } else {
-          console.log('UPDATE DONE: ', result);
-          resolve(result);
-        }
+        if (err) return reject(err);
+        resolve(result);
       }
     );
   });
 }
 
-// function upsert(table, data) {
-//   if (data && data.id) {
-//     return update(table, data);
-//   } else {
-//     return insert(table, data);
-//   }
-// }
-const upsert = async (table, data) => {
-  let row = [];
-  if (data.id) {
-    row = await get(table, data.id);
-  }
-
-  if (row.length === 0) {
-    return insert(table, data);
-  } else {
+async function upsert(table, data) {
+  console.log(data);
+  const result = get(table, data.id);
+  console.log(result);
+  if (result && result.length > 0) {
     return update(table, data);
+  } else {
+    return insert(table, data);
   }
-};
+}
+// const upsert = async (table, data) => {
+//   let row = [];
+//   if (data.id) {
+//     row = await get(table, data.id);
+//   }
+
+//   if (row.length === 0) {
+//     return insert(table, data);
+//   } else {
+//     return update(table, data);
+//   }
+// };
 
 function query(table, query, join) {
   let joinQuery = '';

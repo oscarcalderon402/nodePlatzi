@@ -1,4 +1,5 @@
 const { nanoid } = require('nanoid');
+const { v4: uuidv4 } = require('uuid');
 const TABLA = 'post';
 
 module.exports = function (injectedStore) {
@@ -23,7 +24,7 @@ module.exports = function (injectedStore) {
     if (!!id) {
       post.id = id;
     } else {
-      post.id = nanoid();
+      post.id = uuidv4();
     }
 
     return store.upsert(TABLA, post);
