@@ -77,9 +77,8 @@ function update(table, data) {
 }
 
 async function upsert(table, data) {
-  console.log(data);
   const result = get(table, data.id);
-  console.log(result);
+
   if (result && result.length > 0) {
     return update(table, data);
   } else {
